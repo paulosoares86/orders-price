@@ -16,7 +16,7 @@ module ActiveRecord
 
   #
   # Recebe uma matriz de dados e uma lista de colunas.
-  # Cada linha da matriz é transformada em uma instância da classe que extende
+  # Cada linha da matriz é transformada em uma instância da classe que estende
   # este módulo.
   #
   def load_data(rows, *columns)

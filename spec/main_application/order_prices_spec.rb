@@ -7,7 +7,7 @@ describe "Main application output" do
   let(:files) { [ './spec/files/coupons.csv', './spec/files/products.csv',
                   './spec/files/orders.csv', './spec/files/order_items.csv' ] }
 
-  it "should match with output.csv" do
+  it "should produce results that match with output.csv" do
     DataLoader.load(:csv, *files)
     expected = CSV.readlines('./spec/files/output.csv')
     ret = Order.all.each_with_index do |order, index|
