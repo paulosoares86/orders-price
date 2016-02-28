@@ -4,7 +4,6 @@ require 'time'
 
 class Coupon
   extend ActiveRecord
-  load_csv './files/coupons.csv', :id, :discount, :type, :expiration, :max_used
 
   validate(:id) { |id| id >= 0 }
   validate(:discount) { |discount| discount >= 0 }

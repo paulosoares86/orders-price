@@ -1,7 +1,7 @@
 # Sumário de pedidos
 
 Esta é uma aplicação de linha de comando capaz de calcular o valor
-final de pedidos de uma empresa. 
+final de pedidos de uma empresa.
 
 ## Entrada
 
@@ -58,19 +58,23 @@ O arquivo de saída deve ser também em formato CSV, no formato:
 
 ## Dependências
 
-Esta aplicação tem como única dependência o *ruby* a partir da versão 2.0. 
+Para instalar as dependências desta aplicação, execute no shell
+
+~~~shell
+$  bundle install
+~~~
 
 ## Execução
 
 Para gerar os resultados da aplicação, execute no shell
 
 ~~~shell
-$  ruby order_prices.rb cupons.csv products.csv orders.csv order_items.csv totals.csv
+$  ruby order_prices.rb csv cupons.csv products.csv orders.csv order_items.csv totals.csv
 ~~~
 
 ## Testes
 Para testar a aplicação, execute no shell
 
 ~~~shell
-$ ruby tests/models.rb
+$ rspec
 ~~~

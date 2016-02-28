@@ -5,7 +5,6 @@ require_relative './order_item'
 
 class Order
   extend ActiveRecord
-  load_csv './files/orders.csv', :id, :coupon_id
 
   validate(:id) { |id| id >= 0 }
   validate(:coupon_id) { |coupon_id| coupon_id.nil? or coupon_id >= 0 }
