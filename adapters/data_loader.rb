@@ -25,13 +25,13 @@ module DataLoader
     def self.load_data_into_model(input_format, model, source, *columns)
       data = extract_lines(input_format, source)
       if data.nil? or data.length == 0
-        raise EmptyDataSource.exception "#{model} has no data to be loaded"
+        msg = "#{source} has no data to be loaded into #{model}."
+        raise EmptyDataSource.exception
       elsif data[0].length != columns.length
-        msg = "#{model} columns and source columns does not match. Check the sources"
+        msg = "#{model} and source number of columns does not match."
         raise InvalidDataSource.exception msg
-      else
-        model.load_data(data, *columns)
       end
+      model.load_data(data, *columns)
     end
 
     def self.extract_lines(input_format, source)
