@@ -1,7 +1,7 @@
 require './adapters/data_loader'
 require 'optparse'
 
-usage_message = "Usage: ruby order_prices.rb csv cupons.csv products.csv orders.csv order_items.csv totals.csv"
+usage_message = "Usage: ruby order_prices.rb csv coupons.csv products.csv orders.csv order_items.csv totals.csv"
 
 OptionParser.new do |opts|
   opts.banner = usage_message
@@ -17,7 +17,7 @@ input_format = ARGV.shift.to_sym
 output_file = ARGV.pop
 files = ARGV
 
-DataLoader.load(input_format, files)
+DataLoader.load(input_format, *files)
 
 CSV.open(output_file, "wb") do |csv|
   Order.all.each do |order|

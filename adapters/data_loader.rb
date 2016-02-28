@@ -7,36 +7,23 @@ require './adapters/csv_adapter'
 
 #
 # O objetivo do DataLoader é fazer validações básicas e
-# carregar os dados nos models
+# carregar os dados nos models. Outras fontes de dados diferentes de CSV
+# podem ser incluídas neste módulo.
 #
 module DataLoader
   include CSVAdapter
 
-  def self.load(input_format, sources)
-
-    unless sources and sources.length == 4
-      raise InvalidNumberOfInputSources
-    end
-
-    data = sources.map { |file| extract_lines(input_format, file) }
-
-    load_data_into_model(Coupon, data[0], :id, :discount, :type, :expiration, :max_used)
-    load_data_into_model(Product, data[1], :id, :price)
-    load_data_into_model(Order, data[2], :id, :coupon_id)
-    load_data_into_model(OrderItem, data[3], :order_id, :product_id)
+  def self.load(input_format, coupon_source, product_source, order_source, order_item_source)
+    load_data_into_model(:csv, Coupon, coupon_source, :id, :discount, :type, :expiration, :max_used)
+    load_data_into_model(:csv, Product, product_source, :id, :price)
+    load_data_into_model(:csv, Order, order_source, :id, :coupon_id)
+    load_data_into_model(:csv, OrderItem, order_item_source, :order_id, :product_id)
   end
 
   private
 
-    def self.extract_lines(input_format, filename)
-      if input_format == :csv
-        data = CSVAdapter.extract_lines(filename)
-      else
-        raise InvalidInputFormat
-      end
-    end
-
-    def self.load_data_into_model(model, data, *columns)
+    def self.load_data_into_model(input_format, model, source, *columns)
+      data = extract_lines(input_format, source)
       if data.nil? or data.length == 0
         raise EmptyDataSource.exception "#{model} has no data to be loaded"
       elsif data[0].length != columns.length
@@ -46,5 +33,14 @@ module DataLoader
         model.load_data(data, *columns)
       end
     end
+
+    def self.extract_lines(input_format, source)
+      if input_format == :csv
+        data = CSVAdapter.extract_lines(source)
+      else
+        raise InvalidInputFormat
+      end
+    end
+
 
 end
