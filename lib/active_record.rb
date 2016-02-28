@@ -15,8 +15,9 @@ module ActiveRecord
   end
 
   #
-  # Transforma as linhas não vazias do csv em instancias da classe que estende
-  # este módulo. Estas instancias podem ser acessadas através do reader all
+  # Recebe uma matriz de dados e uma lista de colunas.
+  # Cada linha da matriz é transformada em uma instância da classe que extende
+  # este módulo.
   #
   def load_data(rows, *columns)
     @all = []
