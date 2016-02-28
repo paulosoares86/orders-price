@@ -19,7 +19,7 @@ describe Order do
   # end
 
   it "calculates the correct total price" do
-    expect(Order.find(123).total_price).to eq 2500
+    expect(Order.find(123).order_price_without_discount).to eq 2500
   end
 
 

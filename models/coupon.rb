@@ -16,10 +16,10 @@ class Coupon
     @used_count < max_used and Time.now < expiration
   end
 
-  def relative_discount(total_price, mark_as_used: false)
-    if valid? and total_price > 0
+  def relative_discount(price, mark_as_used: false)
+    if valid? and price > 0
       @used_count += 1 if mark_as_used
-      type == 'percent' ? discount : discount * 100.0 / total_price
+      type == 'percent' ? discount : discount * 100.0 / price
     else
       0
     end

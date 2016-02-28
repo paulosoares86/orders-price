@@ -15,7 +15,7 @@ class Order
       .map { |order_item| Product.find(order_item.product_id) }
   end
 
-  def total_price
+  def order_price_without_discount
     products.map(&:price).reduce(:+)
   end
 
@@ -31,14 +31,14 @@ class Order
     coupon = Coupon.find(coupon_id)
     return progressive_discount if coupon.nil?
 
-    if coupon.relative_discount(total_price) > progressive_discount
-      coupon.relative_discount(total_price, mark_as_used: true)
+    if coupon.relative_discount(order_price_without_discount) > progressive_discount
+      coupon.relative_discount(order_price_without_discount, mark_as_used: true)
     else
       progressive_discount
     end
   end
 
   def final_price!
-    total_price * ( 1 - relative_discount! / 100.0 )
+    order_price_without_discount * ( 1 - relative_discount! / 100.0 )
   end
 end

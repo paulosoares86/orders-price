@@ -1,15 +1,10 @@
 require './adapters/data_loader'
-require 'optparse'
 
-usage_message = "Usage: ruby order_prices.rb csv coupons.csv products.csv orders.csv order_items.csv totals.csv"
-
-OptionParser.new do |opts|
-  opts.banner = usage_message
-end.parse!
+example_msg = "Usage: ruby order_prices.rb csv coupons.csv products.csv orders.csv order_items.csv totals.csv"
 
 if ARGV.length != 6
   puts "Invalid arguments"
-  puts usage_message
+  puts example_msg
   exit 1
 end
 
