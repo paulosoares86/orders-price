@@ -1,12 +1,11 @@
 require 'csv'
 
+#
+# Implements the CSV Adapter to extract non empty rows from CSVs
+#
 module CSVAdapter
-
   def self.extract_lines(filename)
-    if filename.nil? or not File.exist?(filename)
-      raise EmptyDataSource
-    end
-    CSV.readlines(filename).select { |row| row.compact.length > 0 }
+    raise EmptyDataSource if filename.nil? || !File.exist?(filename)
+    CSV.readlines(filename).select { |row| !row.compact.empty? }
   end
-  
 end

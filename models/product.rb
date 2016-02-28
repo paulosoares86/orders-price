@@ -1,5 +1,8 @@
 require_relative '../lib/active_record'
 
+#
+# Class that will be used by data loader to load products
+#
 class Product
   extend ActiveRecord
 

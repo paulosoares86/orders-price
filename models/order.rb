@@ -3,14 +3,18 @@ require_relative './product'
 require_relative './coupon'
 require_relative './order_item'
 
+#
+# Class that will be used by data loader to load orders
+#
 class Order
   extend ActiveRecord
 
   validate(:id) { |id| id >= 0 }
-  validate(:coupon_id) { |coupon_id| coupon_id.nil? or coupon_id >= 0 }
+  validate(:coupon_id) { |coupon_id| coupon_id.nil? || coupon_id >= 0 }
 
   def products
-    OrderItem.all
+    OrderItem
+      .all
       .select { |order_item| order_item.order_id == id }
       .map { |order_item| Product.find(order_item.product_id) }
   end
@@ -31,7 +35,8 @@ class Order
     coupon = Coupon.find(coupon_id)
     return progressive_discount if coupon.nil?
 
-    if coupon.relative_discount(order_price_without_discount) > progressive_discount
+    coupon_discount = coupon.relative_discount(order_price_without_discount)
+    if coupon_discount > progressive_discount
       coupon.relative_discount(order_price_without_discount, mark_as_used: true)
     else
       progressive_discount
@@ -39,6 +44,6 @@ class Order
   end
 
   def final_price!
-    order_price_without_discount * ( 1 - relative_discount! / 100.0 )
+    order_price_without_discount * (1 - relative_discount! / 100.0)
   end
 end
